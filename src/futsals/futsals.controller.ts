@@ -10,8 +10,10 @@ import {
 import { FutsalsService } from './futsals.service';
 import { CreateFutsalDto } from './dto/create-futsal.dto';
 import { UpdateFutsalDto } from './dto/update-futsal.dto';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('futsals')
+@ApiTags('Futsals')
 export class FutsalsController {
   constructor(private readonly futsalsService: FutsalsService) {}
 
