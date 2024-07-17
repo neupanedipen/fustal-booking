@@ -23,6 +23,7 @@ model Futsal {
   owner        User      @relation(fields: [ownerId], references: [id])
   createdAt    DateTime  @default(now())
   updatedAt    DateTime? @updatedAt
+  bookings     Booking[]
 }
 
 model User {
@@ -35,10 +36,31 @@ model User {
   createdAt   DateTime  @default(now())
   updatedAt   DateTime? @updatedAt
   futsal      Futsal?
+  bookings    Booking[]
 }
 
 enum Role {
   USER
   ADMIN
   OWNER
+}
+
+model Booking {
+  id         Int           @id @default(autoincrement())
+  futsalId   Int
+  futsal     Futsal        @relation(fields: [futsalId], references: [id])
+  userId     Int
+  user       User          @relation(fields: [userId], references: [id])
+  startTime  DateTime
+  endTime    DateTime
+  totalPrice Float
+  status     BookingStatus @default(PENDING)
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
 }
