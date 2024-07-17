@@ -14,22 +14,27 @@ datasource db {
 }
 
 model Futsal {
-  id       Int    @id @default(autoincrement())
-  name     String
-  about    String
-  location String
-  // owner    User      @relation(fields: [ownerId], references: [id])
-  // ownerId  Int
-  // bookings Booking[]
+  id           Int       @id @default(autoincrement())
+  name         String
+  address      String
+  description  String?
+  pricePerHour Float
+  ownerId      Int       @unique
+  owner        User      @relation(fields: [ownerId], references: [id])
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime? @updatedAt
 }
 
 model User {
-  id          Int    @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   name        String
-  email       String
-  phoneNumber String @unique
+  email       String    @unique
   password    String
-  role        Role   @default(USER)
+  phoneNumber String
+  role        Role      @default(USER)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime? @updatedAt
+  futsal      Futsal?
 }
 
 enum Role {

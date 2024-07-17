@@ -13,6 +13,10 @@ import { CreateFutsalDto } from './dto/create-futsal.dto';
 import { UpdateFutsalDto } from './dto/update-futsal.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { JwtGuard } from 'src/auth/guards/jwt.guard';
+import { GetUser } from 'src/auth/decorators/get-user.decorator';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { Roles } from 'src/auth/decorators/roles.decorator';
+import { Role } from '@prisma/client';
 
 @Controller('futsals')
 @ApiTags('Futsals')
@@ -21,8 +25,10 @@ export class FutsalsController {
   constructor(private readonly futsalsService: FutsalsService) {}
 
   @Post()
-  create(@Body() createFutsalDto: CreateFutsalDto) {
-    return this.futsalsService.create(createFutsalDto);
+  @UseGuards(RolesGuard)
+  @Roles(Role.OWNER)
+  create(@Body() createFutsalDto: CreateFutsalDto, @GetUser() user: any) {
+    return this.futsalsService.create(createFutsalDto, user);
   }
 
   @Get()

@@ -18,7 +18,6 @@ import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { JwtGuard } from 'src/auth/guards/jwt.guard';
 
 @Controller('users')
-@UseGuards(JwtGuard, RolesGuard)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
@@ -28,6 +27,7 @@ export class UsersController {
   }
 
   @Get()
+  @UseGuards(JwtGuard, RolesGuard)
   @Roles(Role.ADMIN)
   findAll() {
     return this.usersService.findAll();

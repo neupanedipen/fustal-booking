@@ -6,12 +6,25 @@ import { PrismaService } from 'src/prisma/prisma.service';
 @Injectable()
 export class FutsalsService {
   constructor(private prismaService: PrismaService) {}
-  create(createFutsalDto: CreateFutsalDto) {
-    return this.prismaService.futsal.create({ data: createFutsalDto });
+  create(createFutsalDto: CreateFutsalDto, user: any) {
+    return this.prismaService.futsal.create({
+      data: {
+        ...createFutsalDto,
+        ownerId: user.userId,
+      },
+    });
   }
 
   findAll() {
-    return this.prismaService.futsal.findMany();
+    return this.prismaService.futsal.findMany({
+      include: {
+        owner: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    });
   }
 
   findOne(id: number) {
