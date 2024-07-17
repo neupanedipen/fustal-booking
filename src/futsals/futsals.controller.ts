@@ -6,14 +6,17 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { FutsalsService } from './futsals.service';
 import { CreateFutsalDto } from './dto/create-futsal.dto';
 import { UpdateFutsalDto } from './dto/update-futsal.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { JwtGuard } from 'src/auth/guards/jwt.guard';
 
 @Controller('futsals')
 @ApiTags('Futsals')
+@UseGuards(JwtGuard)
 export class FutsalsController {
   constructor(private readonly futsalsService: FutsalsService) {}
 
