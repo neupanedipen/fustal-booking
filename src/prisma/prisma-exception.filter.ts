@@ -16,6 +16,12 @@ export class PrismaExceptionFilter extends BaseExceptionFilter {
           message: exception.meta?.target + ' must be unique',
         });
         break;
+      case 'P2003':
+        response.status(HttpStatus.CONFLICT).json({
+          statusCode: HttpStatus.CONFLICT,
+          message: exception.meta?.field_name + ' foreign key error',
+        });
+        break;
       case 'P2025':
         response.status(HttpStatus.NOT_FOUND).json({
           statusCode: HttpStatus.NOT_FOUND,
